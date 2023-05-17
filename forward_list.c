@@ -30,9 +30,6 @@ void forward_list_set_value(ForwardList *f_line, ForwardList *f_col, int linha, 
             f_line->head = c;
             c->next_col = c_atual_aux;
         }
-        else if(c_atual_aux->col == coluna) { // para somar caso estejam no mesmo lugar
-            c->val += val;
-        }
         else {
             c_anterior_aux->next_col = c;
             c->next_col = c_atual_aux;
@@ -75,12 +72,45 @@ float forward_list_pull_value(ForwardList* f_line, int col) {
     return 0;
 }
 
-void forward_list_plus_by_const(ForwardList **f_new_line, ForwardList**f_new_col, ForwardList*f_line, float cte, int col) {
+void forward_list_mult_two_matriz(ForwardList **f_new_line, ForwardList**f_new_col,int linha_new, int col_new, ForwardList*f1_line, ForwardList *f2_col) {
+    Celula *c_f1 = f1_line->head;
+    Celula *c_f2 = f2_col->head;
+    float valor = 0.0;
+
+    while (c_f1 != NULL && c_f2 != NULL)
+    {
+        if(c_f1->col > c_f2->line) {
+            c_f2 = c_f2->next_line;
+        }
+        else if(c_f1->col < c_f2->line) {
+            c_f1 = c_f1->next_col;
+        }
+        else if(c_f1->col == c_f2->line) {
+            valor += c_f1->val*c_f2->val;
+            c_f1 = c_f1->next_col;
+            c_f2 = c_f2->next_line;
+        }
+    }
+    forward_list_set_value(f_new_line[linha_new], f_new_col[col_new], linha_new, col_new, valor);
+
+}
+
+void forward_list_mult_by_const(ForwardList **f_new_line, ForwardList**f_new_col, ForwardList*f_line, float cte) {
     Celula *c = f_line->head;
     while (c != NULL)
     {
         float valor = cte*c->val;
         forward_list_set_value(f_new_line[c->line], f_new_col[c->col], c->line, c->col, valor);
+        c = c->next_col;
+    }
+}
+
+void forward_list_transposta(ForwardList **f_new_line, ForwardList**f_new_col, ForwardList*f_line) {
+    Celula *c = f_line->head;
+    while (c != NULL)
+    {
+        float valor = c->val;
+        forward_list_set_value(f_new_line[c->col], f_new_col[c->line], c->col, c->line, valor);
         c = c->next_col;
     }
 }

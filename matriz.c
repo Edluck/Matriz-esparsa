@@ -48,15 +48,16 @@ float matriz_read_value(Matriz *m, int linha, int coluna) {
     return valor_lido;
 }
 
-Matriz *matriz_plus_by_const(Matriz *m, float cte) {
+Matriz *matriz_mult_by_const(Matriz *m, float cte) {
     Matriz *m_new = matriz_create(m->line_head_size, m->colune_head_size);
     if(cte == 0) {
         return m_new;
     }
-    
+    // Caso ocorra da constante ser 0, retornamos a matriz, gerando um tempo dessa parte de O(1)
+    // Considerando a criacao da matriz, seu tempo sera de O(i+j) = O(n)
     for (int i = 0; i < m->line_head_size; i++)
     {
-        forward_list_plus_by_const(m_new->line_head, m_new->colune_head,m->line_head[i], cte, m->colune_head_size);
+        forward_list_mult_by_const(m_new->line_head, m_new->colune_head,m->line_head[i], cte);
     }
     
     return m_new;
@@ -89,17 +90,35 @@ Matriz *matriz_sum_two_matriz(Matriz *m1, Matriz *m2) {
     return m3;
 }
 Matriz *matriz_mult_two_matriz(Matriz *m1, Matriz *m2) {
+    Matriz *m3 = matriz_create(m1->line_head_size, m2->colune_head_size);
+
     if(m1->colune_head_size != m2->line_head_size){
         printf("Nao eh possivel multiplicar essas matrizes!\n");
-        return NULL;
+        return m3;
     }
-    Matriz *m3 = matriz_create(m1->line_head_size, m2->colune_head_size);
+
+    for (int i = 0; i < m1->colune_head_size; i++)
+    {
+        
+        for (int j = 0; j < m2->line_head_size; j++)
+        {
+            forward_list_mult_two_matriz(m3->line_head, m3->colune_head,i, j, m1->line_head[i], m2->colune_head[j]);
+        }
+        
+    }
+    
+
     
     return m3;
 }
 
 Matriz *matriz_transposta(Matriz *m) {
     Matriz *m_new = matriz_create(m->colune_head_size, m->line_head_size);
+    
+    for (int i = 0; i < m->line_head_size; i++)
+    {
+        forward_list_transposta(m_new->line_head, m_new->colune_head, m->line_head[i]);
+    }
     
     
     return m_new;

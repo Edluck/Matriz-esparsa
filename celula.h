@@ -1,12 +1,12 @@
 #ifndef CELULA_H
 #define CELULA_H
 
-typedef struct Celula
+typedef struct celula
 {
     int line;
     int col;
-    Celula *next_line;
-    Celula *next_col;
+    struct celula *next_line;
+    struct celula *next_col;
     float val;
 }Celula;
 

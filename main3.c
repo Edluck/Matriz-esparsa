@@ -1,5 +1,5 @@
 /*
-Apos o teste da main2.c, utilizar essa main3.c para finalizar o ultimo teste
+Apos o teste da main2.c, utilizar essa main3.c para finalizar o ultimo teste de operacoes e manipulacoes
 */
 
 #include "matriz.h"
@@ -11,48 +11,47 @@ int main(int argc, char const *argv[])
     int i = 5, j = 5;
     printf("Este programa ira testar todas as funcoes de manipulacoes para a matriz de tamanho 5x5:\n\n");
     // apos os teste dessa main2, utilize Make main3.c para realizar a ultima funcao da convolucao
-    //primeiro, criacao e atribuicao de valores
+    // primeiro, criacao e atribuicao de valores
     Matriz *m1 = matriz_create(i, j);
-    matriz_set_value(m1, 0, 1 , 1, ATUALIZAR);
-    matriz_set_value(m1, 0, 3 , 1, ATUALIZAR);
-    matriz_set_value(m1, 2, 3 , 1, ATUALIZAR);
-    matriz_set_value(m1, 2, 4 , 1, ATUALIZAR);
-    matriz_set_value(m1, 1, 2 , 1, ATUALIZAR);
-    matriz_set_value(m1, 3, 1 , 1, ATUALIZAR);
-    matriz_set_value(m1, 3, 0 , 1, ATUALIZAR);
-    //printamos densamente a matriz para vizualizar-la
+    matriz_set_value(m1, 0, 1, 1, ATUALIZAR);
+    matriz_set_value(m1, 0, 3, 1, ATUALIZAR);
+    matriz_set_value(m1, 2, 3, 1, ATUALIZAR);
+    matriz_set_value(m1, 2, 4, 1, ATUALIZAR);
+    matriz_set_value(m1, 1, 2, 1, ATUALIZAR);
+    matriz_set_value(m1, 3, 1, 1, ATUALIZAR);
+    matriz_set_value(m1, 3, 0, 1, ATUALIZAR);
+    // printamos densamente a matriz para vizualizar-la
     printf("Matriz principal m1 em formato denso:\n");
     matriz_print_dense(m1);
     /* o utlimo teste eh a convolucao da matriz principal por
-    outra submatriz de kernel. O resultado esperado seria a 
+    outra submatriz de kernel. O resultado esperado seria a
     multiplicacao ponto a ponto do slice gerado para ser igual
     a matriz de kernel, somar essa matriz multiplicada e a aplicar
     ele na matriz resultante
     */
-   Matriz *kernel = matriz_create(3,3);
-   for (int a = 0; a < 3; a++)
-   {
-    for (int b = 0; b < 3; b++)
+    Matriz *kernel = matriz_create(3, 3);
+    for (int a = 0; a < 3; a++)
     {
-        matriz_set_value(kernel, a, b, 1, ATUALIZAR);
+        for (int b = 0; b < 3; b++)
+        {
+            matriz_set_value(kernel, a, b, 1, ATUALIZAR);
+        }
     }
-    
-   }
-   
-   printf("Matriz kernel:\n");
-   matriz_print_dense(kernel);
 
-    //agora o teste da convolucao da matriz 1 pela matriz kernel
-    Matriz *m2 = matriz_convolution(m1,kernel);
+    printf("Matriz kernel:\n");
+    matriz_print_dense(kernel);
+
+    // agora o teste da convolucao da matriz 1 pela matriz kernel
+    Matriz *m2 = matriz_convolution(m1, kernel);
     /* No caso desse kernel, todos os elementos que possuirem algum
     1 a sua adjacencia, sera somado ao numero central
     */
     printf("Resultando da convolucao da matriz1:\n");
     matriz_print_dense(m2);
-   //desaloca os espacos alocados
-   matriz_destruct(m1);
-   matriz_destruct(kernel);
-   matriz_destruct(m2);
+    // desaloca os espacos alocados
+    matriz_destruct(m1);
+    matriz_destruct(kernel);
+    matriz_destruct(m2);
     return 0;
 }
 

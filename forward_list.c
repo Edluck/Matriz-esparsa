@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "forward_list.h"
 
-
 /* Foi utilizado as nomenclatura f para se referir a ForwardList, line para linha ou col para coluna
     , new para a nova matriz que sera criada e retornada, f1 ou f2 para indicar que seria o vetor da linha ou coluna
     da matriz 1 e matriz 2 respectivamente. E a partir disso, feita a juncao dessas iniciais.
@@ -12,13 +11,12 @@ ForwardList *forward_list_create()
 {
     ForwardList *l = (ForwardList *)malloc(1 * sizeof(ForwardList));
     l->head = NULL;
-    l->size = 0;
     return l;
     // como essa parte nao utliza do tamanho da matriz, o seu tempo seria O(1)
 }
 
 void forward_list_set_value(ForwardList *f_line, ForwardList *f_col, int linha, int coluna, float val)
-{   
+{
     // vamos tratar primeiro onde nao existe celula ainda na linha
     Celula *c = celula_create(val, NULL, NULL, coluna, linha);
     if (f_line->head == NULL)
@@ -189,8 +187,8 @@ void forward_list_slice(ForwardList **f_new_line, ForwardList **f_new_col, Forwa
     Celula *c_f1 = f1_line->head;
 
     while (c_f1 != NULL && c_f1->col <= col2)
-    {   
-         if (c_f1->col >= col1)
+    {
+        if (c_f1->col >= col1)
         {
             forward_list_set_value(f_new_line[c_f1->line - lin1], f_new_col[c_f1->col - col1], c_f1->line - lin1, c_f1->col - col1, c_f1->val);
         }
@@ -241,7 +239,7 @@ void forward_list_print_dense(ForwardList *f_line, int col)
         }
     }
     /* Essa funcao de print no formato denso possui O(n) de complexidade, pois estamos caminhando de 0 a col
-    */
+     */
 }
 
 void forward_list_print_sparse(ForwardList *f_line, int col)
@@ -272,7 +270,7 @@ void forward_list_destroy(ForwardList *fl)
         c = c->next_line;
         celula_destroy(aux);
     }
-    /* A funcao que desaloca espaco tem complexidade O(n), pois 
+    /* A funcao que desaloca espaco tem complexidade O(n), pois
     pela linha vai desalocando as celulas, ou seja, eh linear
     */
     free(fl);
